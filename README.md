@@ -193,5 +193,6 @@ fork的仓库整理
 |https://github.com/wsy1983wsy/android-job |android任务处理|
 |https://github.com/wsy1983wsy/AVLoadingIndicatorView |android加载动画|
 |https://github.com/wsy1983wsy/LargeImage| android显示超大图|
+|https://github.com/wsy1983wsy/ViewAnimator|android动画|
 
 
