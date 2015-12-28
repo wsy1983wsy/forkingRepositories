@@ -194,5 +194,6 @@ fork的仓库整理
 |https://github.com/wsy1983wsy/AVLoadingIndicatorView |android加载动画|
 |https://github.com/wsy1983wsy/LargeImage| android显示超大图|
 |https://github.com/wsy1983wsy/ViewAnimator|android动画|
-
-
+|https://github.com/wsy1983wsy/MaterialArcMenu|自定义view显示arc菜单|
+|https://github.com/vipulasri/Timeline-View|时间线自定义view|
+|https://github.com/taoliuh/CardSlidePanel| card view demo|
