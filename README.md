@@ -6,12 +6,20 @@ fork的仓库整理
 |----|---|
 |https://github.com/wsy1983wsy/the-art-of-command-line| 命令行的艺术|
 |https://github.com/wsy1983wsy/pbc |protobuf c语言|
+|https://github.com/mobdevgroup/| BobDevGroup网址|
+|[http://blog.csdn.net/aigestudio/article/details/41212583](http://blog.csdn.net/aigestudio/article/details/41212583)|  自定义控件其实很简单|
+|[http://yq.aliyun.com/articles/2371?hmsr=toutiao.io&spm=5176.100239.yqblog1.14.YuBfSq&utm_medium=toutiao.io&utm_source=toutiao.io](http://yq.aliyun.com/articles/2371?hmsr=toutiao.io&spm=5176.100239.yqblog1.14.YuBfSq&utm_medium=toutiao.io&utm_source=toutiao.io)|理解nio|
+|[http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect](http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect)|快的打车架构|
+|[https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md](https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md)|git flow|
+
 # node
 |网址|备注|
 |----|---|
 |https://github.com/wsy1983wsy/nodebeginner.org | node|
 |https://github.com/wsy1983wsy/node-lessons|node|
 | https://github.com/wsy1983wsy/async_demo|node|
+|[http://html5ify.com/eventproxy/](http://html5ify.com/eventproxy/)|node 去callback|
+|[https://github.com/ruanyf/react-demos](https://github.com/ruanyf/react-demos)|react demo|
 # ios
 |网址|备注|
 |----|---|
@@ -33,8 +41,11 @@ fork的仓库整理
 |https://github.com/wsy1983wsy/iOSInterviewQuestions |面试题集锦|
 |https://github.com/wsy1983wsy/beautifulApp |高仿最美应用|
 |https://github.com/vulgur/WSDZhihuDaily http://vulgur.me/2016/01/06/fake-zhihu-home/?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io|仿知乎日报首页效果|
-
-
+|https://github.com/cesarferreira/SwiftEventBus|事件总线|
+|[https://github.com/wsy1983wsy/ijkplayer](https://github.com/wsy1983wsy/ijkplayer)|ios视频播放|
+|[https://github.com/ibireme/YYKit](https://github.com/ibireme/YYKit)|YYKit|
+|[http://huangshaohua.cn/#blog](http://huangshaohua.cn/#blog)|YYWebImage源码阅读|
+|[https://github.com/yixiangboy/IOSAnimationDemo](https://github.com/yixiangboy/IOSAnimationDemo)|IOS 动画|
 
 # android
 |网址|备注|
@@ -200,3 +211,16 @@ fork的仓库整理
 |https://github.com/taoliuh/CardSlidePanel| card view demo|
 |https://github.com/wsy1983wsy/AndResGuard|资源混淆|
 |https://github.com/yuxingxin/RxJava-Essentials-CN |RXJava书籍|
+|[**https://github.com/wsy1983wsy/DatePicker**](https://github.com/wsy1983wsy/DatePicker)|日历控件|
+|[https://github.com/wsy1983wsy/ijkplayer](https://github.com/wsy1983wsy/ijkplayer)|ios视频播放|
+|[https://github.com/Bilibili/DanmakuFlameMaster](https://github.com/Bilibili/DanmakuFlameMaster)|弹幕效果|
+|[https://github.com/qklabs/qksms](https://github.com/qklabs/qksms)|一个android短信替代软件|
+|[https://github.com/davemorrissey/subsampling-scale-image-view](https://github.com/davemorrissey/subsampling-scale-image-view)|显示超大图|
+|[https://realm.io/cn/news/droidcon-jake-wharton-simple-http-retrofit-2/](https://realm.io/cn/news/droidcon-jake-wharton-simple-http-retrofit-2/)|retrofit 使用|
+|[https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io](https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)|RXJava资源|
+|[http://www.infoq.com/cn/android-in-depth](http://www.infoq.com/cn/android-in-depth)|深入理解android系列|
+|[http://www.infoq.com/cn/articles/android-worker-thread?utm_campaign=rightbar_v2&utm_source=infoq&utm_medium=articles_link&utm_content=link_text](http://www.infoq.com/cn/articles/android-worker-thread?utm_campaign=rightbar_v2&utm_source=infoq&utm_medium=articles_link&utm_content=link_text)|关于Android中工作者线程的思考|
+|[**http://www.jianshu.com/p/03fdcfd3ae9c**](http://www.jianshu.com/p/03fdcfd3ae9c)|一步一步教你实现Periscope点赞效果|
+|[https://github.com/pengjianbo/GalleryFinal](https://github.com/pengjianbo/GalleryFinal)|图片选择库|
+|[https://github.com/yydcdut/PhotoNoter](https://github.com/yydcdut/PhotoNoter)|Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载) |
+|[https://github.com/CharonChui/AndroidNote](https://github.com/CharonChui/AndroidNote)|Android学习笔记|
