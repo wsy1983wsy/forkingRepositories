@@ -32,6 +32,7 @@ fork的仓库整理
 |https://github.com/wsy1983wsy/CHTCollectionViewWaterfallLayout |collectionview显示瀑布流|
 |https://github.com/wsy1983wsy/iOSInterviewQuestions |面试题集锦|
 |https://github.com/wsy1983wsy/beautifulApp |高仿最美应用|
+|https://github.com/vulgur/WSDZhihuDaily http://vulgur.me/2016/01/06/fake-zhihu-home/?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io|仿知乎日报首页效果|
 
 
 
@@ -198,3 +199,4 @@ fork的仓库整理
 |https://github.com/vipulasri/Timeline-View|时间线自定义view|
 |https://github.com/taoliuh/CardSlidePanel| card view demo|
 |https://github.com/wsy1983wsy/AndResGuard|资源混淆|
+|https://github.com/yuxingxin/RxJava-Essentials-CN |RXJava书籍|
