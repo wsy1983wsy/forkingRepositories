@@ -11,6 +11,7 @@ fork的仓库整理
 |[http://yq.aliyun.com/articles/2371?hmsr=toutiao.io&spm=5176.100239.yqblog1.14.YuBfSq&utm_medium=toutiao.io&utm_source=toutiao.io](http://yq.aliyun.com/articles/2371?hmsr=toutiao.io&spm=5176.100239.yqblog1.14.YuBfSq&utm_medium=toutiao.io&utm_source=toutiao.io)|理解nio|
 |[http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect](http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect)|快的打车架构|
 |[https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md](https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md)|git flow|
+|[http://mccxj.github.io/blog/20130530_introduce-to-rest.html](http://mccxj.github.io/blog/20130530_introduce-to-rest.html)|RESTful介绍|
 
 # node
 |网址|备注|
@@ -47,6 +48,7 @@ fork的仓库整理
 |[http://huangshaohua.cn/#blog](http://huangshaohua.cn/#blog)|YYWebImage源码阅读|
 |[https://github.com/yixiangboy/IOSAnimationDemo](https://github.com/yixiangboy/IOSAnimationDemo)|IOS 动画|
 |[http://lastday.github.io/](http://lastday.github.io/)|ios网络请求|
+|[https://github.com/yuantiku/YTKNetwork](https://github.com/yuantiku/YTKNetwork)|猿题库网络请求库|
 
 # android
 |网址|备注|
@@ -225,3 +227,10 @@ fork的仓库整理
 |[https://github.com/pengjianbo/GalleryFinal](https://github.com/pengjianbo/GalleryFinal)|图片选择库|
 |[https://github.com/yydcdut/PhotoNoter](https://github.com/yydcdut/PhotoNoter)|Material Design风格的开源照片笔记。(MVP+Dagger2+RxJava+Dex分包异步加载) |
 |[https://github.com/CharonChui/AndroidNote](https://github.com/CharonChui/AndroidNote)|Android学习笔记|
+|[https://github.com/wsy1983wsy/JianDanRxJava](https://github.com/wsy1983wsy/JianDanRxJava)|使用RxJava替换EventBus|
+|[http://www.jianshu.com/p/328784b363b6?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io](http://www.jianshu.com/p/328784b363b6?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)|键盘表情
+|[https://github.com/desmond1121/Android-Ptr-Comparison/blob/master/README.md](https://github.com/desmond1121/Android-Ptr-Comparison/blob/master/README.md)|android下拉刷新分析|
+|[http://mp.weixin.qq.com/s?__biz=MzAwOTE0ODEwMQ==&mid=401731625&idx=1&sn=9bf2bacfbba43ba9dc7b2e854b64e66c&scene=23&srcid=1231ni0s2Y0OMfYSoNhkkJ47#rd&ADUIN=289832127&ADSESSION=1451551778&ADTAG=CLIENT.QQ.5425_.0&ADPUBNO=26509](http://mp.weixin.qq.com/s?__biz=MzAwOTE0ODEwMQ==&mid=401731625&idx=1&sn=9bf2bacfbba43ba9dc7b2e854b64e66c&scene=23&srcid=1231ni0s2Y0OMfYSoNhkkJ47#rd&ADUIN=289832127&ADSESSION=1451551778&ADTAG=CLIENT.QQ.5425_.0&ADPUBNO=26509)|途牛插件化|
+|[http://hackeris.me/2015/12/20/rxandroid_restructuring/](http://hackeris.me/2015/12/20/rxandroid_restructuring/)|Rx Android实战（重构项目）|
+|[http://gank.io/post/560e15be2dca930e00da1083](http://gank.io/post/560e15be2dca930e00da1083)|给 Android 开发者的 RxJava 详解|
+|[https://www.zhihu.com/question/35511144](https://www.zhihu.com/question/35511144)|知乎关于RXJava的回答|
