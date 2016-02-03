@@ -12,7 +12,7 @@ fork的仓库整理
 |[http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect](http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=402041851&idx=1&sn=10e83c9dc614ae36bba63da9d5614b86&scene=0#wechat_redirect)|快的打车架构|
 |[https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md](https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md)|git flow|
 |[http://mccxj.github.io/blog/20130530_introduce-to-rest.html](http://mccxj.github.io/blog/20130530_introduce-to-rest.html)|RESTful介绍|
-
+|[https://github.com/oldratlee/translations](https://github.com/oldratlee/translations)| git flow指南|
 # node
 |网址|备注|
 |----|---|
@@ -49,6 +49,9 @@ fork的仓库整理
 |[https://github.com/yixiangboy/IOSAnimationDemo](https://github.com/yixiangboy/IOSAnimationDemo)|IOS 动画|
 |[http://lastday.github.io/](http://lastday.github.io/)|ios网络请求|
 |[https://github.com/yuantiku/YTKNetwork](https://github.com/yuantiku/YTKNetwork)|猿题库网络请求库|
+|[https://github.com/wsy1983wsy/Yep](https://github.com/wsy1983wsy/Yep) | Yep代码|
+|[https://github.com/jobbole/awesome-ios-cn](https://github.com/jobbole/awesome-ios-cn) | ios资源大全|
+|[https://github.com/wsy1983wsy/DOPDropDownMenu-Enhanced](https://github.com/wsy1983wsy/DOPDropDownMenu-Enhanced)| DOPDropDownMenu 添加双列表 优化版 新增图片支持|
 
 # android
 |网址|备注|
@@ -235,3 +238,14 @@ fork的仓库整理
 |[http://gank.io/post/560e15be2dca930e00da1083](http://gank.io/post/560e15be2dca930e00da1083)|给 Android 开发者的 RxJava 详解|
 |[https://www.zhihu.com/question/35511144](https://www.zhihu.com/question/35511144)|知乎关于RXJava的回答|
 |[RxJavaSamples](https://github.com/THEONE10211024/RxJavaSamples)|RxJavaSamples rx java 例子以及文档|
+|[https://github.com/danylovolokh/VideoPlayerManager](https://github.com/danylovolokh/VideoPlayerManager) | listView播放视频|
+|[https://github.com/Naoki2015/CircleDemo](https://github.com/Naoki2015/CircleDemo)| 仿微信朋友圈|
+|[https://github.com/SkillCollege/SimplifyReader](https://github.com/SkillCollege/SimplifyReader)| 一款基于Google Material Design设计开发的Android客户端，包括新闻简读，图片浏览，视频爽看 ，音乐轻听以及二维码扫描五个子模块。|
+|[http://www.jayfeng.com/2015/12/29/APK%E7%98%A6%E8%BA%AB%E5%AE%9E%E8%B7%B5/](http://www.jayfeng.com/2015/12/29/APK%E7%98%A6%E8%BA%AB%E5%AE%9E%E8%B7%B5/)| apk瘦身|
+|[https://github.com/wsy1983wsy/blockcanary](https://github.com/wsy1983wsy/blockcanary) | 性能记录|
+|[https://github.com/afollestad/app-theme-engine](https://github.com/afollestad/app-theme-engine)| 主题引擎|
+|[https://github.com/wsy1983wsy/Awesome-Android-Architecture](https://github.com/wsy1983wsy/Awesome-Android-Architecture)| anroid框架文章合集|
+|[http://www.trinea.cn/android/android-network-sniffer/](http://www.trinea.cn/android/android-network-sniffer/)| Android利用Fiddler进行网络数据抓包|
+|[https://github.com/wsy1983wsy/yours](https://github.com/wsy1983wsy/yours)| 一个属于你自己的关于展示最近电影的app |
+|[https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles](https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles)| android可以看的文档|
+|[https://github.com/wsy1983wsy/DropDownMenu](https://github.com/wsy1983wsy/DropDownMenu)| dropDwon效果|
