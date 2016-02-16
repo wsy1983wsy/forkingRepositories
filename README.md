@@ -13,6 +13,8 @@ fork的仓库整理
 |[https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md](https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md)|git flow|
 |[http://mccxj.github.io/blog/20130530_introduce-to-rest.html](http://mccxj.github.io/blog/20130530_introduce-to-rest.html)|RESTful介绍|
 |[https://github.com/oldratlee/translations](https://github.com/oldratlee/translations)| git flow指南|
+|[http://www.csdn.net/article/2015-09-07/2825631](http://www.csdn.net/article/2015-09-07/2825631)|Android内存泄露案例分析|
+|[https://github.com/ruijun/Android-Dev-Favorites](https://github.com/ruijun/Android-Dev-Favorites) | Android-Dev-Favorites android开发收集的资源|
 # node
 |网址|备注|
 |----|---|
