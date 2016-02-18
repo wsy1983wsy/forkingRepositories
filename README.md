@@ -252,3 +252,4 @@ fork的仓库整理
 |[https://github.com/wsy1983wsy/yours](https://github.com/wsy1983wsy/yours)| 一个属于你自己的关于展示最近电影的app |
 |[https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles](https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles)| android可以看的文档|
 |[https://github.com/wsy1983wsy/DropDownMenu](https://github.com/wsy1983wsy/DropDownMenu)| dropDwon效果|
+|[https://github.com/rockerhieu/emojicon](https://github.com/rockerhieu/emojicon)|emoji 显示textview和edittext|
