@@ -226,7 +226,7 @@ fork的仓库整理
 |[https://github.com/qklabs/qksms](https://github.com/qklabs/qksms)|一个android短信替代软件|
 |[https://github.com/davemorrissey/subsampling-scale-image-view](https://github.com/davemorrissey/subsampling-scale-image-view)|显示超大图|
 |[https://realm.io/cn/news/droidcon-jake-wharton-simple-http-retrofit-2/](https://realm.io/cn/news/droidcon-jake-wharton-simple-http-retrofit-2/)|retrofit 使用|
-|[https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io](https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)|RXJava资源|
+|[https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io](https://github.com/lzyzsd/Awesome-RxJava?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)|RXJava资源，RXJava一些文档集合|
 |[http://www.infoq.com/cn/android-in-depth](http://www.infoq.com/cn/android-in-depth)|深入理解android系列|
 |[http://www.infoq.com/cn/articles/android-worker-thread?utm_campaign=rightbar_v2&utm_source=infoq&utm_medium=articles_link&utm_content=link_text](http://www.infoq.com/cn/articles/android-worker-thread?utm_campaign=rightbar_v2&utm_source=infoq&utm_medium=articles_link&utm_content=link_text)|关于Android中工作者线程的思考|
 |[**http://www.jianshu.com/p/03fdcfd3ae9c**](http://www.jianshu.com/p/03fdcfd3ae9c)|一步一步教你实现Periscope点赞效果|
