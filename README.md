@@ -55,6 +55,7 @@ fork的仓库整理
 |[https://github.com/wsy1983wsy/Yep](https://github.com/wsy1983wsy/Yep) | Yep代码|
 |[https://github.com/jobbole/awesome-ios-cn](https://github.com/jobbole/awesome-ios-cn) | ios资源大全|
 |[https://github.com/wsy1983wsy/DOPDropDownMenu-Enhanced](https://github.com/wsy1983wsy/DOPDropDownMenu-Enhanced)| DOPDropDownMenu 添加双列表 优化版 新增图片支持|
+|[https://realm.io/cn/news/slug-max-alexander-functional-reactive-rxswift/](https://realm.io/cn/news/slug-max-alexander-functional-reactive-rxswift/)|RxSwift 函数响应式编程|
 
 # android
 |网址|备注|
@@ -253,3 +254,13 @@ fork的仓库整理
 |[https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles](https://github.com/zmywly8866/Worth-Reading-the-Android-technical-articles)| android可以看的文档|
 |[https://github.com/wsy1983wsy/DropDownMenu](https://github.com/wsy1983wsy/DropDownMenu)| dropDwon效果|
 |[https://github.com/rockerhieu/emojicon](https://github.com/rockerhieu/emojicon)|emoji 显示textview和edittext|
+
+# Flow and Mortar
+|[https://corner.squareup.com/2014/01/mortar-and-flow.html](https://corner.squareup.com/2014/01/mortar-and-flow.html)|
+Simpler Android apps with Flow and Mortar|
+|[http://stackoverflow.com/questions/27995917/using-flow-mortar-with-viewpager](http://stackoverflow.com/questions/27995917/using-flow-mortar-with-viewpager)|Using Flow & Mortar with ViewPager|
+|[https://github.com/wsy1983wsy/Mortar-Flow-Dagger2-demo](https://github.com/wsy1983wsy/Mortar-Flow-Dagger2-demo)|Mortar-Flow-Dagger2-demo|
+|[https://www.bignerdranch.com/blog/an-investigation-into-flow-and-mortar/](https://www.bignerdranch.com/blog/an-investigation-into-flow-and-mortar/)|An Investigation into Flow and Mortar|
+|[https://github.com/wsy1983wsy/MortarLib](https://github.com/wsy1983wsy/MortarLib)|Supports building Android apps using Square's Flow and Mortar|
+|[https://corner.squareup.com/2014/10/advocating-against-android-fragments.html](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html)|
+Advocating Against Android Fragments|
