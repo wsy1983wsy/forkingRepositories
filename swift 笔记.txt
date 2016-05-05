@@ -1,0 +1,34 @@
+# 基础部分
+var 表示变量<br>
+let 表示常量,赋值之后不在进行修改<br>
+可选类型，处理值可能缺失的情况，表示有值，等于x，或者没有值,定义方式: var a:String?<br>
+nil不能用于非可选的常量和变量。<br>
+可选绑定，if let constantName = someOptional{}<br>
+隐式解析可选类型，可选类型在第一次赋值之后，可以确定一个其总是有值的，可以将定义时的?使用!替换。<br>
+
+```java
+let possibleString: String? = "An optional string."
+let forcedString: String = possibleString! // 需要惊叹号来获取值
+
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString  // 不需要感叹号
+```
+空合运算符(a ?? b)将对可选类型a进行空判断，如果a包含一个值就进行解封，否则就返回一个默认值b，这个运算符you两个条件：表示式a必须时Optional类型，默认值b的类型必须要和a存储值的类型保持一致。<br>
+区间运算符，a...b 包含b， a..<b不包含b。<br>
+数组，使用有序列表存储同一类型的多个值，相同的值可以多次出现在一个数组的不同位置。
+var someInts = [Int]()<br>
+var shoppingList:[String] = ["Eggs","Milk"]<br>
+var shoppingList = ["Eggs","Milk"]<br>
+常量数组被赋值之后不可进行修改，同时不能修改数组内的数据<br>
+集合用来存储相同类型并且没有确定顺序的值，每个元素只出现一次。<br>
+var letters = Set<character>()<br>
+intersect交集，exclusiveor除了交集之外的元素组成的集合，union联合，subtract不在交集中的元素组成一个集合。a.subtract(b)不在a和b的交集中的a的元素组成一个集合。<br>
+字典是一种存储多个类型的值的容器，每个值都关联唯一的键，键作为字典中的这个值数据的标示符。字典中的数据项没有具体顺序。使用Dictionary<key,value>定义。也可以使用[key: value}快捷形式去创建一个字典类型。
+var namesOfIntegers ＝ [Int: String]()
+case 分支的模式可以使用where语句来判断额外的条件。
+continue语句告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。
+贯穿，fallthrough，从一个case分支落入到下一个case分支中。
+
+
+
+
