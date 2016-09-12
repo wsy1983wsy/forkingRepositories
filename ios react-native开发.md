@@ -62,7 +62,7 @@ console.log(CalendarManager.firstDayOfTheWeek);
 
 ## native发送消息给js端
 ### 模块中发送消息
-即使没有被JavaScript调用，本地模块也可以给JavaScript发送事件通知。最直接的方式是使用eventDispatcher:
+即使没有被JavaScript调用，本地模块也可以给JavaScript发送事件通知。由于在AppDelegate中已经有RCTRootView变量，可以直接使用RCTRootView的bridge。eventDispatcher执行sendAppEventWithName方法。最直接的方式是使用eventDispatcher:
 ```javascript
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
