@@ -11,7 +11,7 @@
 6. onStop，表示Activity即将停止。<br>
 7. onDestory,Activity即将被销毁，可以做一些回收工作和最终的资源释放。<br>
 整个生命周期如下图所示:<br>
-![生命周期](activity_life_cycle.png) <br>
+![生命周期](http://7xka7s.com1.z0.glb.clouddn.com/activity_life_cycle.png) <br>
 
 ## 注意事项
 1. 针对一个特定的Activity，第一次启动，回调为onCreate->onStart->onResume
@@ -81,9 +81,9 @@ Path,pathPattern,pathPrefix,三个参数表示路径信息，其中path表示完
 Intent必须包含data数据，并且data数据能够完全匹配过滤规则中的某一个data。
 # Fragment 生命周期
 生命周期如下所示:<br>
-![生命周期](fragment_life_cycle.png)<br>
+![生命周期](http://7xka7s.com1.z0.glb.clouddn.com/fragment_life_cycle.png)<br>
 与activity生命周期对比:<br>
-![生命周期比较](fragment_activity_life_cycle.png)
+![生命周期比较](http://7xka7s.com1.z0.glb.clouddn.com/fragment_activity_life_cycle.png)
 ## 生命周期分析
 1. 当一个fragment被创建的时候，它会经历以下状态.
  * onAttach()
