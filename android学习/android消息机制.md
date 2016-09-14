@@ -4,11 +4,12 @@
 |Message|传递的消息内容|
 |Handler|发出消息，处理消息，线程切换|
 |MessageQueue| 消息的单向链表，用于存储消息|
-|Looper|以无限循环的形式去查找（去MessageQueue中获取）是否有新消息，如果有则进行处理，否则会一直等待|
+|Looper|以无限循环的形式去查找（去MessageQueue中获取）是否有新消息，如果有则进行处理，否则会一直等待，Looper会被休眠和唤醒。|
 |ThreadLocal|不是线程，用于在每个线程中存储数据，可以认为是每个线程内的数据存贮器|
 
 ## 如何使线程具有消息机制
 想要使线程具有消息机制，必须定义一个Looper，典型代码如下所示：
+
 ```
 class Worker extends Thread {
     public volatile Handler handler; // actually private, of course
