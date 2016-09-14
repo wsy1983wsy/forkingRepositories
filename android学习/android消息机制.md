@@ -118,12 +118,11 @@ public static void loop() {
                 logging.println(">>>>> Dispatching to " + msg.target + " " +
                         msg.callback + ": " + msg.what);
             }
-            //调用消息的target进行消息处理，target即Handler，在这里实现了消息的线程间传递，也就是线程切换操作
+            //调用消息的target进行消息处理，target即Handler。Looper所在的线程保证了Handler处理消息的线程，可以认为这里执行了线程切换。
             msg.target.dispatchMessage(msg);
             if (logging != null) {
                 logging.println("<<<<< Finished to " + msg.target + " " + msg.callback);
             }
-
             // Make sure that during the course of dispatching the
             // identity of the thread wasn't corrupted.
             final long newIdent = Binder.clearCallingIdentity();
@@ -225,11 +224,18 @@ prepareMainLooper给主线程创建一个Looper。
 
 # 消息处理流程
 1. 工作线程执行耗时操作
-2. 使用handler发送消息，
-3. handler调用enqueue方法将消息插入MessageQueue中
-4. Looper通过loop获取消息
+2. 使用handler发送消息，Handler在创建的时候根据不同的参数确定Handler所在的线程，如果没有指定Looper，则在创建时的那个线程内，如果指定了Looper，则在Looper所在的县城。
+3. handler调用enqueue方法将消息插入MessageQueue中，在C++代码层会通过Looper的C++的代码唤醒Looper。
+4. Looper通过loop获取消息，会调用MessageQueue的next方法，在next方法中会调用nativePollOnce，如果没有数据则会休眠，将CPU让给其他的操作使用。
 5. Looper调用Message的target的dispatchMessage方法处理消息，因此Looper在哪个线程里，dispatchMessage就在哪个线程里，handler的dispatchMessage操作也在哪个线程里。
 6. dispatchMessage进行消息的处理，根据条件使用不同的方法的方法进行处理
- 6.1 如果消息有callback则执行消息的callback操作
- 6.2 如果Handler有mCallback则使用mCallback执行处理
+ 6.1 如果消息有callback则执行消息的callback操作，消息的callback是一个Runnable对象，通过Handler的Post方法传递的Runnable对象构建消息。
+ 6.2 如果Handler有mCallback则使用mCallback执行处理，mCallback是在构建Handler时指定的。
  6.3 如果以上均不成立，则执行Handler的handleMessage方法
+
+# Handler，MessageQueue，Looper，线程关系
+* 一个Handler有一个Looper，且只有一个。
+* 一个线程有一个Looper，且只有一个。
+* 一个Looper可以有多个Handler，保证每个消息的target不同，处理方法不同。
+* Looper运行在所在的线程内，导致handler也运行在Looper所在的线程内。
+* 一个Looper有一个MessageQueue，Handler操作的MessageQueue时Looper的MessageQueue。
