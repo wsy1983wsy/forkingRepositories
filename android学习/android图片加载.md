@@ -139,7 +139,433 @@ new Thread(new Runnable() {
 ## glide
 ### url
 https://github.com/bumptech/glide
-### 使用方法
+### 基本的加载方法
+#### 加载URL
+```javascript
+ ImageView targetImageView = (ImageView) findViewById(R.id.imageView);
+ String imageUrl = Urls.ImageURls.get(0);
+ //with方法中的是activity，fragment，Context
+ Glide.with(this).load(imageUrl).into(targetImageView);
+```
+#### 加载资源
+```javascript
+ ImageView targetImageView = (ImageView) findViewById(R.id.imageView);
+ Glide.with(this).load(R.mipmap.stone).into(targetImageView);
+```
+#### 加载文件
+```javascript
+File externalStorage = Environment.getExternalStorageDirectory();
+//sd卡下Pictures目录下有一个图片Picture_11_Taste.jpg
+String imagePath = externalStorage.getAbsolutePath() + FOREWARD_SLASH + "Pictures" + FOREWARD_SLASH + "Picture_11_Taste.jpg";
+File imageFile = new File(imagePath);
+ImageView targetImageView = (ImageView) findViewById(R.id.imageView);
+Glide.with(this).load(imageFile).into(targetImageView);
+```
+#### 加载Uri
+```javascript
+public void onUriImageClicked(View view) {
+  ImageView targetImageView = (ImageView) findViewById(R.id.imageView);
+  Uri uri = resourceIdToUri(this, R.mipmap.stone);
+  Glide.with(this).load(uri).into(targetImageView);
+}
+
+public static final String ANDROID_RESOURCE = "android.resource://";
+public static final String FOREWARD_SLASH = "/";
+
+private static Uri resourceIdToUri(Context context, int resourceId) {
+  return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
+}
+```
+### 转换
+#### 基础的转换
+* centerCrop 会按原始比例缩小图像，使宽或者高的一边等于给定的值，另外一边会等于或者大于给定值。CenterCrop会裁剪掉多余部分。 CenterCrop和Android中的ScaleType.CENTER_CROP效果相同。
+* fitCenter 会按原始比例缩小图像，使图像可以在放在给定的区域内。FitCenter会尽可能少地缩小图片，使宽或者高的一边等于给定的值。另外一边会等于或者小于给定值。 FitCenter和Android中的ScaleType.FIT_CENTER效果相同。等比缩放。
+
+#### 自定义转换
+如果需要自定义转换，需要继承自BitmapTransformation，一般的转换代码如下：<br>
+
+```javascript
+private static class MyTransformation extends BitmapTransformation {
+
+    public MyTransformation(Context context) {
+       super(context);
+    }
+
+    @Override
+    protected Bitmap transform(BitmapPool pool, Bitmap toTransform,
+            int outWidth, int outHeight) {
+       //转换代码，进行bitmap处理
+       Bitmap myTransformedBitmap = ... // apply some transformation here.
+       return myTransformedBitmap;
+    }
+
+    @Override
+    public String getId() {
+        // Return some id that uniquely identifies your transformation.
+        return "com.example.myapp.MyTransformation";
+    }
+}
+```
+这样在加载的时候就可以使用transfrom方法替换掉fitCenter，centerCrop方法了。
+#### 第三方类库
+使用 [glide-transformations](https://github.com/wasabeef/glide-transformations) 类库。
+### 缓存
+#### 内存缓存
+skipMemeoryCache方法表示是否不在内存中缓存，默认是在内容中缓存。
+#### 磁盘缓存
+diskCacheStartegy,表示图片的磁盘缓存策略。<br>
+磁盘缓存策略有以下几种:<br>
+
+* DiskCacheStrategy.NONE 什么都不缓存，就像刚讨论的那样
+* DiskCacheStrategy.SOURCE 仅仅只缓存原来的全分辨率的图像。在我们上面的例子中，将会只有一个  1000x1000 像素的图片
+* DiskCacheStrategy.RESULT 仅仅缓存最终的图像，即，降低分辨率后的（或者是转换后的）
+* DiskCacheStrategy.ALL 缓存所有版本的图像
+
+#### 缓存失效
+##### 缓存的key
+DiskCacheStrategy.RESULT磁盘缓存策略（注：我们配置的一种磁盘缓存策略）使用的key由以下四个主要部分组成：<br>
+
+* DataFetcher的方法getId()返回的字符。典型地，DataFetcher仅仅返回由数据Model的toString()方法得到的值。所以，如果Model是一个URL，那么会返回URL的字符串，如果Model是是一个文件，那么会返回文件的路径。
+* 宽和高。如果你调用过override(width,height)方法，那么就是是它传入的值。没有调用过，默认是通过Target的getSize()方法获得这个值。
+* 各种编码器、解码器的getId()方法返回的字符串。这些编码器、解码器用于加载和缓存你的图片。仅有哪些堆bytes数据有影响的编码器、解码器才会有这些id值。比如，你只有一个将bytes数据写入磁盘的编码器，那么它就没有id值，因为不管怎样它都不会修改数据。
+* 可选地，你可以为图片加载提供签名(Signature)，请看下面的缓存失效部分。
+
+所有的这些key，以特定的顺序计算出hash值，并将这个值作为保存图片到磁盘上的唯一且安全的文件名。
+
+##### 失效原因
+由于文件名是hash值，没有简便的方式删除磁盘上某个特定url或者文件路径的所有缓存文件。如果仅仅缓存原文件，问题可能还比较简单，但是Glide会缓存缩略图，各种变换后的图片，所有这些缓存都会产生新文件。跟踪和删除所有文件是十分困难的。因此可能无法准确的从缓存取取到一个已经显示过的图片的文件。
+
+### 请求优先级
+priority可以设置图片下载的优先级，优先级分为：<br>
+
+* Priority.LOW
+* Priority.NORMAL
+* Priority.HIGH
+* Priority.IMMEDIATE
+
+优先级从低到高。高优先级先执行。
+
+### 缩略图
+通过指定thumbnail，参数为float，该缩略图使用的要显示图的缩略图。同样的也可以不使用要显示的图像，方法为:<br>
+
+```javascript
+ DrawableRequestBuilder<String> thumbnailRequest = Glide
+        .with( context )
+        .load( eatFoodyImages[2] );
+
+    // pass the request as a a parameter to the thumbnail request
+ Glide
+        .with( context )
+        .load( UsageExampleGifAndVideos.gifUrl )
+        .thumbnail( thumbnailRequest )
+        .into( imageView3 );
+```
+### Target
+Glide提供了一个用Target获取Bitmap资源的方法。Target只是用来回调，它会在所有的加载和处理完毕时返回想要的结果。<br>
+lide使用Target作为资源的接收器，以及生命周期事件的回调接口。<br>
+#### SimpleTarget
+使用方法为:<br>
+
+```javascript
+private SimpleTarget target = new SimpleTarget<Bitmap>() {
+        @Override
+        public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+            imageView.setImageBitmap(bitmap);
+        }
+};
+```
+在onResourceReady方法中返回了Bitmap，在该方法中可以讲bitmap设置到imageview中。另外可以设置图片的大小，示例代码为：<br>
+
+```javascript
+//200,200表示图片的大小
+private SimpleTarget target = new SimpleTarget<Bitmap>(200, 200) {
+        @Override
+        public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+            imageView.setImageBitmap(bitmap);
+        }
+
+    };
+```
+#### ViewTarget
+某些情况下，我们不能使用ImageView接收图片，可能需要使用自定义的View来接收图片，使用方法为:<br>
+
+```javascript
+ViewTarget viewTarget = new ViewTarget<CustomViewClass, GlideDrawable>( customView ) {
+        @Override
+        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+			Bitmap bitamp =  resource.getCurrent();
+         //自定义View对bitmap的处理
+        }
+    };
+
+    Glide
+        .with( context.getApplicationContext() ) // safer!
+        .load( eatFoodyImages[2] )
+        .into( viewTarget );
+```
+这样自定View就可以接收Glide下载下来的图片了。
+### GlideModule
+#### 简介
+Glide modules是一个全局改变Glide行为的抽象的方式。你需要创建Glide的实例，来访问GlideBuilder。可以通过创建一个公共的类，实现GlideModule的接口来定制Glide：<br>
+
+```javascript
+public class SimpleGlideModule implements GlideModule {  
+    @Override public void applyOptions(Context context, GlideBuilder builder) {
+        // todo
+    }
+
+    @Override public void registerComponents(Context context, Glide glide) {
+        // todo
+    }
+}
+```
+applyOptions方法将GlideBuilder的对象当作参数，并且是void返回类型，所以你在这个方法里能调用GlideBuilder可以用的方法。<br>
+可以在这个方法中调用GlideBuilder的方法对Glide进行各种配置。<br>
+在AndroidManifest.xml中声明这个类，这样Glide知道它应该加载并使用它。Glide会扫描AndroidManifest.xml的Glide modules的meta定义。这样，你必须在AndroidManifest.xml里的<application>标签下声明刚创建的Glide module。<br>
+
+```javascript
+<manifest
+    ...
+    <application>
+        <meta-data
+            android:name="io.futurestud.tutorials.glide.glidemodule.SimpleGlideModule"
+            android:value="GlideModule" />
+        ...
+    </application>
+</manifest>
+```
+name需要填写完整的包名和类名。如果你想要禁止Glide Module，只要从AndroidManifest.xml里移除它。你可以一次同时声明多个Glide Module。Glide会（没有特殊的顺序）都遍历所有声明的module。由于你当前未定义顺序，确保你的定制不会造成冲突！
+#### 自定义缓存
+Glide内存使用MemorySizeCalculator类去决定内存缓存和bitmap池的大小。修改内存缓存的方法如下所示:
+
+```javascript
+public class CustomCachingGlideModule implements GlideModule {  
+    @Override public void applyOptions(Context context, GlideBuilder builder) {
+        MemorySizeCalculator calculator = new MemorySizeCalculator(context);
+        int defaultMemoryCacheSize = calculator.getMemoryCacheSize();
+        int defaultBitmapPoolSize = calculator.getBitmapPoolSize();
+
+        int customMemoryCacheSize = (int) (1.2 * defaultMemoryCacheSize);
+        int customBitmapPoolSize = (int) (1.2 * defaultBitmapPoolSize);
+
+        builder.setMemoryCache( new LruResourceCache( customMemoryCacheSize );
+        builder.setBitmapPool( new LruBitmapPool( customBitmapPoolSize );
+    }
+
+    @Override public void registerComponents(Context context, Glide glide) {
+        // nothing to do here
+    }
+}
+```
+磁盘缓存可以存在app的私有目录下或者sd卡上。有两个类InternalCacheDiskCacheFactory，ExternalCacheDiskCacheFactory可以进行私有目录下和sd卡目录下得存储。<br>
+一般的修改磁盘缓存的方法如下：<br>
+
+```javascript
+public class CustomCachingGlideModule implements GlideModule {  
+    @Override
+    public void applyOptions(Context context, GlideBuilder builder) {
+        // set size & external vs. internal
+        int cacheSize100MegaBytes = 104857600;
+
+        builder.setDiskCache(
+            new InternalCacheDiskCacheFactory(context, cacheSize100MegaBytes)
+        );
+
+        //builder.setDiskCache(
+        //new ExternalCacheDiskCacheFactory(context, cacheSize100MegaBytes));
+    }
+
+    @Override
+    public void registerComponents(Context context, Glide glide) {
+        // nothing to do here
+    }
+}
+```
+上面的方法只是设置了缓冲区的大小，并不能改变缓冲区的位置。如果想改变缓冲区的位置需要使用DiskLruCacheFactory。示例代码为：<br>
+
+```javascript
+// or any other path
+String downloadDirectoryPath = Environment.getDownloadCacheDirectory().getPath(); 
+
+builder.setDiskCache(  
+        new DiskLruCacheFactory( downloadDirectoryPath, cacheSize100MegaBytes )
+);
+
+// In case you want to specify a cache sub folder (i.e. "glidecache"):
+//builder.setDiskCache(
+//    new DiskLruCacheFactory( downloadDirectoryPath, "glidecache", cacheSize100MegaBytes ) 
+//);
+```
+### 获取已经加载过的图片
+由于glide会保存原图片和显示的图片，以及缓存失效问题，因此无法通过url获取图片的缓存文件，可以通过这种方法获取图片信息。
+
+```javascript
+private SimpleTarget bytesTarget = new SimpleTarget<byte[]>() {
+        @Override
+        public void onResourceReady(byte[] bytes, GlideAnimation glideAnimation) {
+            Log.d("GlideCache", "" + bytes.length);
+            //可以对bytes执行各种操作
+        }
+    };
+Glide.with(this) 
+                .load(Urls.eatImages.get(2))
+                .asBitmap()
+                .diskkCacheStrategy(DiskCacheStrategy.SOURCE )
+                .toBytes()
+                .into(bytesTarget);
+```
+
+### 问题以及解决方法
+#### 有的图片第一次加载的时候只显示占位图，第二次才显示正常的图片呢？
+1.如果你刚好使用了这个圆形Imageview库或者其他的一些自定义的圆形Imageview，而你又刚好设置了占位的话，那么，你就会遇到第一个问题。如何解决呢？<br>
+方案一: 不设置占位；<br>
+方案二：使用Glide的Transformation API自定义圆形Bitmap的转换。可以使用如下的代码:
+
+```javascript
+Glide.with(this).load(URL).transform(new CircleTransform(context)).into(imageView);
+
+public static class CircleTransform extends BitmapTransformation {
+    public CircleTransform(Context context) {
+        super(context);
+    }
+
+    @Override protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+        return circleCrop(pool, toTransform);
+    }
+
+    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
+        if (source == null) return null;
+
+        int size = Math.min(source.getWidth(), source.getHeight());
+        int x = (source.getWidth() - size) / 2;
+        int y = (source.getHeight() - size) / 2;
+
+        // TODO this could be acquired from the pool too
+        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
+
+        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
+        if (result == null) {
+            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(result);
+        Paint paint = new Paint();
+        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
+        paint.setAntiAlias(true);
+        float r = size / 2f;
+        canvas.drawCircle(r, r, r, paint);
+        return result;
+    }
+
+    @Override public String getId() {
+        return getClass().getName();
+    }
+} 
+```
+方案三：使用下面的代码加载图片：<br>
+
+```javascript
+Glide.with(mContext)
+    .load(url) 
+    .placeholder(R.drawable.loading_spinner)
+    .into(new SimpleTarget<Bitmap>(width, height) {
+        @Override 
+        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+            // setImageBitmap(bitmap) on CircleImageView 
+        } 
+    });
+```
+该方法在listview上复用有问题的bug,如果在listview中加载CircleImageView，请不要使用该方法。<br>
+方案四：不使用Glide的默认动画
+
+```javascript
+Glide.with(mContext)
+    .load(url) 
+    .dontAnimate()
+    .placeholder(R.drawable.loading_spinner)
+    .into(circleImageview);
+```
+#### 我总会得到类似You cannot start a load for a destroyed activity这样的异常呢？
+不要在非主线程里面使用Glide加载图片，如果真的使用了，请把context参数换成getApplicationContext。
+#### 我不能给加载的图片setTag()呢？
+方案一：使用setTag(int,object)方法设置tag,具体用法如下：<br>
+
+```javascript
+Glide.with(context).load(urls.get(i).getUrl()).fitCenter().into(imageViewHolder.image);
+        imageViewHolder.image.setTag(R.id.image_tag, i);
+        imageViewHolder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+                int position = (int) v.getTag(R.id.image_tag);
+                Toast.makeText(context, urls.get(position).getWho(), Toast.LENGTH_SHORT).show();
+            }
+        });
+```
+同时在values文件夹下新建ids.xml，添加：<br>
+
+```javascript
+<item name="image_tag" type="id"/>
+```
+方案二：从Glide的3.6.0之后，新添加了全局设置的方法。具体方法如下：
+先实现GlideMoudle接口，全局设置ViewTaget的tagId:<br>
+
+```javascrip
+public class MyGlideMoudle implements GlideModule{
+    @Override
+    public void applyOptions(Context context, GlideBuilder builder) {
+        ViewTarget.setTagId(R.id.glide_tag_id);
+    }
+
+    @Override
+    public void registerComponents(Context context, Glide glide) {
+
+    }
+}
+```
+同样，也需要在ids.xml下添加id:<br>
+
+```javascript
+<item name="R.id.glide_tag_id" type="id"/>
+```
+最后在AndroidManifest.xml文件里面添加
+
+```javascript
+<meta-data
+    android:name="com.yourpackagename.MyGlideMoudle"
+    android:value="GlideModule" />
+```
+方案三：写一个继承自ImageViewTaget的类，复写它的get/setRequest方法。<br>
+
+```javascript
+Glide.with(context).load(urls.get(i).getUrl()).fitCenter().into(new ImageViewTarget<GlideDrawable>(imageViewHolder.image) {
+            @Override
+            protected void setResource(GlideDrawable resource) {
+                imageViewHolder.image.setImageDrawable(resource);
+            }
+
+            @Override
+            public void setRequest(Request request) {
+                imageViewHolder.image.setTag(i);
+                imageViewHolder.image.setTag(R.id.glide_tag_id,request);
+            }
+
+            @Override
+            public Request getRequest() {
+                return (Request) imageViewHolder.image.getTag(R.id.glide_tag_id);
+            }
+        });
+
+        imageViewHolder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                Toast.makeText(context, urls.get(position).getWho(), Toast.LENGTH_SHORT).show();
+            }
+        });
+```
+### 技巧
+1. 当列表在滑动的时候，调用Glide.with(context).pauseRequests()取消请求，滑动停止时，调用Glide.with(context).resumeRequests()恢复请求。
+2. 当你想清除掉所有的图片加载请求时调用Glide.clear()。
+3. 让列表预加载使用ListPreloader类。
 
 ## fresco
 ### url
