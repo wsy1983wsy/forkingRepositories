@@ -567,13 +567,162 @@ Glide.with(context).load(urls.get(i).getUrl()).fitCenter().into(new ImageViewTar
 2. 当你想清除掉所有的图片加载请求时调用Glide.clear()。
 3. 让列表预加载使用ListPreloader类。
 
-## fresco
-### url
-https://github.com/facebook/fresco
-### 使用方法
+### ListPreLoader
+ListPreLoader表示列表预先加载的数据。使用方法如下：<br>
+
+```javasccript
+private ListPreloader listPreloader = new ListPreloader<String>(new ListPreloader.PreloadModelProvider<String>() {
+        @Override
+        public List<String> getPreloadItems(int position) {
+            List<String> preloads = new ArrayList<>(1);
+            preloads.add(Urls.ImageURls.get(position));
+            return preloads;
+        }
+
+        @Override
+        public GenericRequestBuilder getPreloadRequestBuilder(String item) {
+            return Glide.with(GlideListView.this).load(item);
+        }
+    }, new ListPreloader.PreloadSizeProvider<String>() {
+        @Override
+        public int[] getPreloadSize(String item, int adapterPosition, int perItemPosition) {
+            int[] size = {200, 200};
+            return size;
+        }
+    }, 3);
+
+
+listview = (ListView) findViewById(R.id.listview);
+listview.setOnScrollListener(listPreloader);
+```
+
 
 ## picasso
 ### url
 https://github.com/square/picasso
+### 使用方法
+使用方法与glide完全相同，不过picasso没有动画显示。有resize方法。
+### 获取缓存图片方法
+
+```javascript
+Picasso.with(this).load(imageUrl).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
+                Log.d("Picasso", "" + bitmap.getWidth());
+                //在此处可以对bitmap进行操作。
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
+```
+### 图片处理
+Picasso同样有图片的转换类Transformation，该类对要显示的图片进行了处理。使用方法同glide。或者使用[picasso-transformations](https://github.com/wasabeef/picasso-transformations)
+
+### 显示优化
+#### 图片裁剪
+在列表页尽量使用裁剪后的图片，在查看大图模式下才加载完整的图片。<br>
+
+```javascript
+	Picasso.with( imageView.getContext() )
+	.load(url)
+	.resize(dp2px(250),dp2px(250))
+	.centerCrop()
+	.into(imageView);
+```
+picasso默认情况下会使用全局的ApplicationContext，即开发者传进去Activity，picasso也会通过activity获取ApplicationContext。
+
+#### 查看大图放弃memory cache
+Picasso默认会使用设备的15%的内存作为内存图片缓存，且现有的api无法清空内存缓存。我们可以在查看大图时放弃使用内存缓存，图片从网络下载完成后会缓存到磁盘中，加载会从磁盘中加载，这样可以加速内存的回收。<br>
+
+```javascript
+	Picasso.with(getApplication())
+	.load(mURL)
+	.memoryPolicy(NO_CACHE, NO_STORE)
+	.into(imageView);
+```
+其中memoryPolicy的NO_CACHE是指图片加载时放弃在内存缓存中查找，NO_STORE是指图片加载完不缓存在内存中。
+#### RecyclableImageView
+重写ImageView的onDetachedFromWindow方法，在它从屏幕中消失时回调，去掉drawable引用，能加快内存的回收。<br>
+
+```javascript
+public class RecyclerImageView extends ImageView
+{ 
+    ...
+
+    @Override    
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setImageDrawable(null);   
+    }
+}
+```
+#### 新进程中查看大图
+列表页的内存已经非常稳定，但是查看大图时，大图往往占用了20+m内存，加上现有进程中的内存，非常容易oom，在新进程中打开Activity成为比较取巧的避免oom的方式。<br>
+
+```javascript
+<activity android:name=".DetailActivity" android:process=":picture"/>
+```
+只要在AndroidManifest.xml中定义Activity时加入process属性，即可在新进程中打开此Activity。由此，picasso也将在新进程中创建基于新ApplicationContext的单例。
+
+#### 列表页滑动优化
+picasso可以对多个加载请求设置相同的tag，即
+
+```
+	Object tag = new Object();
+	Picasso.with( imageView.getContext() )
+	.load(url)
+	.resize(dp2px(250),dp2px(250))
+	.centerCrop()
+	.tag(tag)
+	.into(imageView);
+```
+例如在RecyclerView滑动时监听，处理不同的表现：<br>
+
+```javascript
+mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+    {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE)
+        {
+            Picasso.with(context).resumeTag(tag);
+        }
+        else
+        {
+            Picasso.with(context).pauseTag(tag);
+        }
+    }
+});
+```
+ 
+#### RGB_565
+对于不透明的图片可以使用RGB_565来优化内存。<br>
+
+```javascript
+	Picasso.with( imageView.getContext() )
+	.load(url)
+	.config(Bitmap.Config.RGB_565)
+	.into(imageView);
+```
+默认情况下，Android使用ARGB_8888
+
+Android中有四种，分别是：
+
+* ALPHA_8：每个像素占用1byte内存
+* ARGB_4444:每个像素占用2byte内存
+* ARGB_8888:每个像素占用4byte内存
+* RGB_565:每个像素占用2byte内存
+
+## fresco
+### url
+https://github.com/facebook/fresco
 ### 使用方法
 
