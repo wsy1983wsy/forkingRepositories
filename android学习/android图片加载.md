@@ -721,8 +721,4 @@ Android中有四种，分别是：
 * ARGB_8888:每个像素占用4byte内存
 * RGB_565:每个像素占用2byte内存
 
-## fresco
-### url
-https://github.com/facebook/fresco
-### 使用方法
 
