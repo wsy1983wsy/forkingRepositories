@@ -722,3 +722,95 @@ Android中有四种，分别是：
 * RGB_565:每个像素占用2byte内存
 
 
+# 图片加载方法
+加载图片的核心思想，采用BitmapFactory.Options来加载所需要尺寸的图片。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，将缩小的图片在ImageView中显示。这样就会降低内存占用从而在一定程度上避免OOM，提高Bitamp加载时的性能。
+
+## 获取采样率流程：
+* 将BitmapFactory.Options的inJustDecodeBounds参数设置为true并加载图片
+* 从BitmapFactory.Options中取出图片的原始宽高信息，他们对应于outWidth和outHeight参数。
+* 根据采样率的规则并结合目标View的所需大小计算出采样率inSmapleSize。
+* 将将BitmapFactory.Options的inJustDecodeBounds参数设置为false，然后重新加载图片。
+
+代码如下：<br>
+
+```javascript
+public static int calculateInSampleSize( 
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    // Raw height and width of image 
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+ 
+    if (height > reqHeight || width > reqWidth) {
+ 
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+ 
+        // Calculate the largest inSampleSize value that is a power of 2 and keeps both 
+        // height and width larger than the requested height and width. 
+        while ((halfHeight / inSampleSize) >= reqHeight
+                && (halfWidth / inSampleSize) >= reqWidth) {
+            inSampleSize *= 2;
+        } 
+    } 
+ 
+    return inSampleSize;
+} 
+
+public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+        int reqWidth, int reqHeight) {
+ 
+    // First decode with inJustDecodeBounds=true to check dimensions 
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inJustDecodeBounds = true;
+    BitmapFactory.decodeResource(res, resId, options);
+ 
+    // Calculate inSampleSize 
+    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+ 
+    // Decode bitmap with inSampleSize set 
+    options.inJustDecodeBounds = false;
+    return BitmapFactory.decodeResource(res, resId, options);
+} 
+
+调用方法：
+mImageView.setImageBitmap( 
+    decodeSampledBitmapFromResource(getResources(), R.id.myimage, 100, 100));
+```
+
+## android中的缓存策略
+目前最常用的缓存算法是LRU（Least Recently Used），近期最少使用算法。核心思想就是当缓存满时，会优先淘汰那些近期最少使用的缓存对象。采用LRU算法的缓存有两种LruCache和DiskLruCache。LruCache用于内存缓存，DiskLruCache用于存储设备缓存。
+
+### LruCache
+LruCache内部采用LinkedHashMap以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作。<br>
+强引用，软引用，弱引用区别：<br>
+* 强引用，直接的对象引用。
+* 软引用，当一个对象只有软引用存在时，系统内存不足时此对象会被gc回收。
+* 弱引用，当一个对象只有弱引用存在时，此对象会随时被gc回收。
+
+### DiskLruCache
+DiskLruCache 用于实现存储设备缓存，通过将缓存对象写入文件系统从而实现缓存的效果。
+
+## 优化列表
+* 不要再getView中执行耗时操作。
+* 控制异步任务的执行频率。考虑在列表滑动的时候停止加载图片，等列表停下来再加载图片。具体实现，可以给ListView或GridView设置SetOnScrollListener，并在OnScrollListener的onScrollStateChanged方法中判断列表是否处于滑动状态，如果是则停止加载：<br>
+
+```javascript
+public void onScrollStateChanged(AbsListView view, int scrollState){
+	if(scrollState == OnScrollListener.SCROLL_STATE_IDLE){
+	//执行加载
+	mIsGridViewIdle = true;
+	mImageAdapter.notifyDataSetChanged();//会导致getView执行
+	} else {
+	//停止加载
+	mIsGridViewIdle = false;
+	}
+}
+
+getVieW方法中修改代码为:
+if(mIsGridViewIdle){
+	imageView.setTag(url);
+	mImageLoader.bindBitmap(uri,imageView,mImageWidth,mImageHeight);
+}
+```
+特出情况下可以开启硬件加速解决卡顿问题。
