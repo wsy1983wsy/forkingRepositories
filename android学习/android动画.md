@@ -1,11 +1,10 @@
 # 动画分类
-android动画分为View动画和属性动画，View动画只能作用在View上，分为逐帧动画(frame-by-frame animation)和补间动画(tweened animation)。逐帧动画的工作原理很简单，其实就是将一个完整的动画拆分成一张张单独的图片，然后再将它们连贯起来进行播放，类似于动画片的工作原理，这样容易造成内存溢出(OOM)。补间动画则是在一定时间内对View进行一系列的动画操作，包括淡入淡出、缩放、平移、旋转四种，而且只能做这四种动画操作。属性动画在android 3.0之后引入，指在一定时间内通过动态地改变对象的属性从而达到动画效果。<br>
+android动画分为View动画(tweened animation，又叫补间动画)，帧动画(frame-by-frame animation)，属性动画。逐帧动画的工作原理很简单，其实就是将一个完整的动画拆分成一张张单独的图片，然后再将它们连贯起来进行播放，类似于动画片的工作原理，这样容易造成内存溢出(OOM)。补间动画则是在一定时间内对View进行一系列的动画操作，包括淡入淡出、缩放、平移、旋转四种，而且只能做这四种动画操作。属性动画在android 3.0之后引入，指在一定时间内通过动态地改变对象的属性从而达到动画效果。<br>
 ## 为何引入属性动画
 补间动画只能对View做淡入淡出、缩放、平移、旋转四种四种动画，而且逐帧动画容易造成OOM，这些功能不足以满足所有的场景（比如改变View的背景色），也就是View动画有很大的局限性。而且补间动画有一个缺陷，只改变了View的显示效果，而不会真正的改变View的属性。也就是说现在屏幕的左上角有一个按钮，然后我们通过补间动画将它移动到了屏幕的右下角，现在你可以去尝试点击一下这个按钮，点击事件是绝对不会触发的，因为实际上这个按钮还是停留在屏幕的左上角，只不过补间动画将这个按钮绘制到了屏幕的右下角而已。<br>
 新引入的属性动画不再只针对View，不仅现定于实现缩放，移动，旋转，淡入淡出这几种动画了，也不再是一种视觉上的动画效果了。实际上是一种不断的对值进行操作的机制，并将值赋值到指定对象的指定属性上，可以是任意对象的任意属性。所以我们仍然可以讲一个View进行移动和缩放，同事也可以对自定义View中得Point对象进行动画操作了，我们只需要告诉系统动画的运行时长，需要执行哪些类型的动画，以及动画的初始值和结束值，剩下的工作可以全部交给系统去完成了。由于属性动画是对目标对象的属性进行赋值并修改其属性来实现的，因此上面的按钮显示问题也就不复存在了，这样按钮就是真正的移动，而不再是仅仅在另外一个位置绘制了。
-# View动画
-## 补间动画
-可以在一个视图容器内执行一系列简单转换（位置，大小，旋转，透明度）。通过xml和代码定义。类名和xml标签关系如下:
+# 补间动画
+可以在一个视图容器内执行一系列简单转换（位置，大小，旋转，透明度）。通过xml和代码定义，建议使用XML文件定义，XML文件更具有可读性，可重用性。类名和xml标签关系如下:
 
 |java类|标签|描述|
 |-----|----|----|
@@ -15,6 +14,132 @@ android动画分为View动画和属性动画，View动画只能作用在View上�
 |TranslateAnimation|<translate>放置在res/anim目录下|位置动画|
 |AnimationSet|<set>放置在res/anim目录下|一个持有其它动画元素alpha、scale、translate、rotate或者其它set元素的容器|
 
+## 视图动画
+Animation类是所有补间动画的基类，具有以下属性：<br>
+
+|xml属性|	java方法|	解释|
+|------|----------|-------|
+|android:detachWallpaper|	setDetachWallpaper(boolean)|	是否在壁纸上运行|
+|android:duration	|setDuration(long)|	动画持续时间，毫秒为单位|
+|android:fillAfter	|setFillAfter(boolean)	|控件动画结束时是否保持动画最后的状态|
+|android:fillBefore	|setFillBefore(boolean)|	控件动画结束时是否还原到开始动画前的状态|
+|android:fillEnabled	|setFillEnabled(boolean)|	与android:fillBefore效果相同|
+|android:interpolator|setInterpolator(Interpolator)|	设定插值器（指定的动画效果，譬如回弹等）|
+|android:repeatCount	|setRepeatCount(int)|	重复次数|
+|android:repeatMode	|setRepeatMode(int)|	重复类型有两个值，reverse表示倒序回放，restart表示从头播放|
+|android:startOffset	|setStartOffset(long)|	调用start函数之后等待开始运行的时间，单位为毫秒|
+|android:zAdjustment|	setZAdjustment(int)|	表示被设置动画的内容运行时在Z轴上的位置（top/bottom/normal），默认为normal|
+无论补间动画属于哪一种都具备这些属性，都可以使用这些属性中的一个或多个。
+## alpha动画属性
+
+|xml属性	|java方法	|解释|
+|-------|----------|----|
+|android:fromAlpha	|AlphaAnimation(float fromAlpha, …)|	动画开始的透明度（0.0到1.0，0.0是全透明，1.0是不透明）|
+|android:toAlpha	|AlphaAnimation(…, float toAlpha)|	动画结束的透明度，同上|
+
+## Rotate属性
+|xml属性	|java方法	|解释|
+|--------|---------|-----|
+|android:fromDegrees	|RotateAnimation(float fromDegrees, …)|	旋转开始角度，正代表顺时针度数，负代表逆时针度数|
+|android:toDegrees|	RotateAnimation(…, float toDegrees, …)|	旋转结束角度，正代表顺时针度数，负代表逆时针度数|
+|android:pivotX	|RotateAnimation(…, float pivotX, …)|	旋转中心点X坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为中心点、50%表示以当前View的左上角加上当前View宽高的50%做为中心点、50%p表示以当前View的左上角加上父控件宽高的50%做为中心点）|
+|android:pivotY	|RotateAnimation(…, float pivotY)|	缩放起点Y坐标，同上规律|
+## Translate属性
+|xml属性|	java方法|	解释|
+|------|-----------|------|
+|android:fromXDelta	|TranslateAnimation(float fromXDelta, …)|	起始点X轴坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为初始点、50%表示以当前View的左上角加上当前View宽高的50%做为初始点、50%p表示以当前View的左上角加上父控件宽高的50%做为初始点）|
+|android:fromYDelta	|TranslateAnimation(…, float fromYDelta, …)|	起始点Y轴从标，同上规律|
+|android:toXDelta	|TranslateAnimation(…, float toXDelta, …)|	结束点X轴坐标，同上规律|
+|android:toYDelta	|TranslateAnimation(…, float toYDelta)|	结束点Y轴坐标，同上规律|
+
+## AnimationSet
+AnimationSet继承自Animation，是上面四种的组合容器管理类，没有自己特有的属性，他的属性继承自Animation，所以特别注意，当我们对set标签使用Animation的属性时会对该标签下的所有子控件都产生影响。具体使用方法如下：<br>
+
+```javascript
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@[package:]anim/interpolator_resource"
+    android:shareInterpolator=["true" | "false"] >
+    <alpha
+        android:fromAlpha="float"
+        android:toAlpha="float" />
+    <scale
+        android:fromXScale="float"
+        android:toXScale="float"
+        android:fromYScale="float"
+        android:toYScale="float"
+        android:pivotX="float"
+        android:pivotY="float" />
+    <translate
+        android:fromXDelta="float"
+        android:toXDelta="float"
+        android:fromYDelta="float"
+        android:toYDelta="float" />
+    <rotate
+        android:fromDegrees="float"
+        android:toDegrees="float"
+        android:pivotX="float"
+        android:pivotY="float" />
+    <set>
+        ...
+    </set>
+</set>
+```
+## 使用方法
+
+```javascript
+ImageView spaceshipImage = (ImageView) findViewById(R.id.spaceshipImage);
+Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
+spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+```
+Animation具有如下的方法:<br>
+
+|Animation类的方法	|解释|
+|------------------|----|
+|reset()	|重置Animation的初始化|
+|cancel()	|取消Animation动画|
+|start()	|开始Animation动画|
+|setAnimationListener(AnimationListener listener)|	给当前Animation设置动画监听|
+|hasStarted()	|判断当前Animation是否开始|
+|hasEnded()	|判断当前Animation是否结束|
+
+View具有StartAnimation和clearAnimation两个方法用于启动动画和清除动画。
+
+# 帧动画
+帧动画同样可以使用java和XML方式实现，XML更简单。但是xml应当放在res/drawable目录下，具体如下:<br>
+
+<animation-list> 必须是根节点，包含一个或者多个<item>元素，属性有：<br>
+
+* android:oneshot true代表只执行一次，false循环执行。
+* <item> 类似一帧的动画资源。
+
+<item> animation-list的子项，包含属性如下：<br>
+
+* android:drawable 一个frame的Drawable资源。
+* android:duration 一个frame显示多长时间。
+
+xml如下所示：<br>
+
+```javascript
+<!-- 注意：rocket.xml文件位于res/drawable/目录下 -->
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot=["true" | "false"] >
+    <item
+        android:drawable="@[package:]drawable/drawable_resource_name"
+        android:duration="integer" />
+</animation-list>
+```
+调用的代码如下：<br>
+
+```javascript
+ImageView rocketImage = (ImageView) findViewById(R.id.rocket_image);
+rocketImage.setBackgroundResource(R.drawable.rocket_thrust);
+
+rocketAnimation = (AnimationDrawable) rocketImage.getBackground();
+rocketAnimation.start();
+```
+> 补间动画，和帧动画考虑到android版本升级换代很快，可以考虑不再使用。
 
 # 属性动画
 ## ValueAnimator
