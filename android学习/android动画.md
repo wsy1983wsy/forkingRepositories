@@ -42,12 +42,12 @@ Animation类是所有补间动画的基类，具有以下属性：<br>
 |--------|---------|-----|
 |android:fromDegrees	|RotateAnimation(float fromDegrees, …)|	旋转开始角度，正代表顺时针度数，负代表逆时针度数|
 |android:toDegrees|	RotateAnimation(…, float toDegrees, …)|	旋转结束角度，正代表顺时针度数，负代表逆时针度数|
-|android:pivotX	|RotateAnimation(…, float pivotX, …)|	旋转中心点X坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为中心点、50%表示以当前View的左上角加上当前View宽高的50%做为中心点、50%p表示以当前View的左上角加上父控件宽高的50%做为中心点）|
+|android:pivotX	|RotateAnimation(…, float pivotX, …)|	旋转中心点X坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为中心点、50%表示以当前当前View宽的50%做为中心点、50%p表示以父控件宽的50%做为中心点）|
 |android:pivotY	|RotateAnimation(…, float pivotY)|	缩放起点Y坐标，同上规律|
 ## Translate属性
 |xml属性|	java方法|	解释|
 |------|-----------|------|
-|android:fromXDelta	|TranslateAnimation(float fromXDelta, …)|	起始点X轴坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为初始点、50%表示以当前View的左上角加上当前View宽高的50%做为初始点、50%p表示以当前View的左上角加上父控件宽高的50%做为初始点）|
+|android:fromXDelta	|TranslateAnimation(float fromXDelta, …)|	起始点X轴坐标（数值、百分数、百分数p，譬如50表示以当前View左上角坐标加50px为初始点、50%表示以当前View宽的50%做为初始点、50%p表示以父控件宽的50%做为初始点）|
 |android:fromYDelta	|TranslateAnimation(…, float fromYDelta, …)|	起始点Y轴从标，同上规律|
 |android:toXDelta	|TranslateAnimation(…, float toXDelta, …)|	结束点X轴坐标，同上规律|
 |android:toYDelta	|TranslateAnimation(…, float toYDelta)|	结束点Y轴坐标，同上规律|
@@ -129,6 +129,7 @@ xml如下所示：<br>
         android:drawable="@[package:]drawable/drawable_resource_name"
         android:duration="integer" />
 </animation-list>
+android:onShot表示是否动画只执行一次，还是执行多次。true一次，false多次。
 ```
 调用的代码如下：<br>
 
@@ -140,6 +141,7 @@ rocketAnimation = (AnimationDrawable) rocketImage.getBackground();
 rocketAnimation.start();
 ```
 > 补间动画，和帧动画考虑到android版本升级换代很快，可以考虑不再使用。
+> 可以使用
 
 # 属性动画
 ## ValueAnimator
@@ -679,6 +681,74 @@ animator.setTarget(view);
 animator.start(); 
 ```
 调用AnimatorInflater的loadAnimator来将XML动画文件加载进来，然后再调用setTarget()方法将这个动画设置到某一个对象上面，最后再调用start()方法启动动画就可以了。
+
+# LayoutAnimation
+LayoutAnimation主要作用于ViewGroup，表示其子View的入场方式，多用于ListView。以ListView为例，设置item的动画。<br>
+定义item入场的动画:<br>
+
+```javascript
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:duration="300"
+     android:interpolator="@android:anim/accelerate_interpolator"
+     android:shareInterpolator="true">
+
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"/>
+    <translate
+        android:fromXDelta="500"
+        android:toXDelta="0" />
+</set>
+```
+定义LayoutAnimation:<br>
+
+```javascript
+<?xml version="1.0" encoding="utf-8"?>
+<layoutAnimation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:animation="@anim/anim_item"
+    android:animationOrder="normal"
+    android:delay="0.5">
+</layoutAnimation>
+```
+其中animation表示需要的入场动画。animationOrder表示动画的顺序，norma，依次显示，reverse逆序显示，random随机显示。delay开始动画的延迟时间。<br>
+给ListView指定LayoutAnimation：<br>
+
+```javascript
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/layout_anim"/>
+```
+也可以实用java代码指定：<br>
+
+```javascript
+  // listview item 动画
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_item);
+        LayoutAnimationController controller = new LayoutAnimationController(animation);
+        listView.setLayoutAnimation(controller);
+```
+
+# Activiyt切换
+Activity自定义切换动画，主要用到了overridePendingTransition(enterAnimation,exitAnimation_这个方法，该方法必须在startActivity和finish之后调用才能生效。
+
+```javascript
+// activity 跳转动画
+Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+startActivity(intent);
+// 必须在startActivity之后调用
+overridePendingTransition(R.anim.enter_anim, R.anim.exit_anim);
+
+// 退出
+public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.enter_anim, R.anim.exit_anim);
+}
+```
+
+
 
 
 
