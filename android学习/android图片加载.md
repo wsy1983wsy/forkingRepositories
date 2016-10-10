@@ -814,3 +814,6 @@ if(mIsGridViewIdle){
 }
 ```
 特出情况下可以开启硬件加速解决卡顿问题。
+
+# 示例代码
+[示例代码](https://github.com/wsy1983wsy/ImageLoaders.git)
