@@ -128,6 +128,7 @@ public class DatabaseManager {
             mDatabase.close();  
         }  
     }
+ }
 ```
 使用方法为:mDatabaseManager = DatabaseManager.getInstance(helper);可以考虑在Application中执行该方法,加入使用上文的DBHelper，简化代码如下:
 
@@ -151,16 +152,23 @@ public class Application extends android.app.Application {
 这样就可以通过Application获取DatabaseManager对象了，而且是唯一的对象。保证线程安全。
 
 ## 优化
-* 插入数据使用SQLiteStatement，具体可以参看[Android应用性能优化之使用SQLiteStatement优化SQLite操作](https://liuzhichao.com/p/1664.html)
+* 插入数据使用SQLiteStatement，进行sql语句的变异，具体可以参看[Android应用性能优化之使用SQLiteStatement优化SQLite操作](https://liuzhichao.com/p/1664.html)
 * 使用事务，减少数据库打开,关闭操作
+* 数据库建立索引
+* 及时关闭cursor
+* 耗时操作异步化
 
 # realm
 
 # 参考
 [Android应用性能优化之使用SQLiteStatement优化SQLite操作](https://liuzhichao.com/p/1664.html)<br>
 [SQLite在多线程并发访问的应用](http://blog.csdn.net/lang791534167/article/details/38984887)<br>
-[Android开发——多线程环境下SQLite数据库并发访问的解决方案](http://www.mobile-open.com/2015/38534.html)
-[android Sqlite多线程访问异常解决方案](http://www.cnblogs.com/wangmars/p/4530670.html)
+[Android开发——多线程环境下SQLite数据库并发访问的解决方案](http://www.mobile-open.com/2015/38534.html)<br>
+[android Sqlite多线程访问异常解决方案](http://www.cnblogs.com/wangmars/p/4530670.html)<br>
+[Android 中 SQLite 性能优化](http://droidyue.com/blog/2015/12/13/android-sqlite-tuning/)<br>
+[android数据库优化](http://www.jianshu.com/p/3b4452fc1bbd)<br>
+[Android 编程下 SQLite 大数据量操作优化](http://www.cnblogs.com/sunzn/archive/2013/01/27/2878377.html)<br>
+
 
 # 示例代码
 
