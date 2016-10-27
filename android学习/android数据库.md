@@ -159,6 +159,28 @@ public class Application extends android.app.Application {
 * 耗时操作异步化
 
 # realm
+realm是一个比sqlite更容易使用的数据库，而不是sqlite的ORM版本或sqlite的封装，关于其使用方法可以参考[java教程](https://realm.io/docs/java/latest/)。
+## 使用方法
+在项目的build.gradle文件中增加如下代码:<br>
+
+```javascript
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:2.0.2"
+    }
+}
+```
+在使用realm的module的build.gradle文件中添加如下代码:<br>
+
+```javascript
+apply plugin: 'realm-android'
+```
+
+## 模型
+所有的Realm对象都必须继承自RealmObject。
 
 # 参考
 [Android应用性能优化之使用SQLiteStatement优化SQLite操作](https://liuzhichao.com/p/1664.html)<br>
@@ -167,7 +189,10 @@ public class Application extends android.app.Application {
 [android Sqlite多线程访问异常解决方案](http://www.cnblogs.com/wangmars/p/4530670.html)<br>
 [Android 中 SQLite 性能优化](http://droidyue.com/blog/2015/12/13/android-sqlite-tuning/)<br>
 [android数据库优化](http://www.jianshu.com/p/3b4452fc1bbd)<br>
-[Android 编程下 SQLite 大数据量操作优化](http://www.cnblogs.com/sunzn/archive/2013/01/27/2878377.html)<br>
+[Android 编程下 SQLite 大数据量操作优化](http://www.cnblogs.com/sunzn/archive/2013/01/27/2878377.html)<br><br>
+
+[realm官方网址](https://realm.io)
+
 
 
 # 示例代码
